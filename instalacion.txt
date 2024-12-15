@@ -1,0 +1,19 @@
+Pasos de instalación del servidor web en Ubuntu/Debian
+
+
+Los siguientes pasos son para la instalación en Ubuntu lts 22.04.5
+
+Actualización del sistema
+	sudo apt-get upgrade && update 
+
+Instalación del servidor web, lenguaje php y servidor de bases de datos
+	sudo apt-get install apache2 php mariadb-server
+
+Instalación de modulos de conexión para php 
+
+	sudo apt-get install libapache1-mod-php php-mysql
+
+Instalación de cliente web para GUI del SGBD
+	
+	sudo apt-get install phpmyadmin 
+
