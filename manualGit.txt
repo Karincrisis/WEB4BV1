@@ -18,10 +18,21 @@ Para agregar generar otra rama
 
     git branch nombreNuevaRama
     
-Para generar cambios después de haber hecho actulizaciones 
+Para generar cambios después de haber hecho actualizaciones
 
     git add .
 
     git commit -m 'mensaje del commit'
 
+    git push (si es la rama prinicipal)
+        (perdira credenciales para subir al repositorio remoto, generar hash de contraseña)
     
+para cambiar de rama
+    git switch nombreRamaParaCambiar
+
+Para obtener los cmabios de una rama a otra
+
+    git switch nombreRamaDestino
+    git merge ramaOrigen
+
+    el proceso anterior aplica los cambios hechos en la rama ramaOrigen a la rama nombreRamaDestino
