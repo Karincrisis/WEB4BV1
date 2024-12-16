@@ -1,0 +1,27 @@
+Manual de uso de git
+
+
+Instalar git con permisos de administrador y agregar git a las variables de entorno globales
+
+
+configuración de git
+
+    git config --global user.name 'nombre de usuario'
+    git config --global user.email 'usuario@dominio.com'
+
+moverse a el directorio de publicación
+    
+    cd c:\wamp64\www\
+    git clone https://github.com/Karincrisis/WEB4BV1.git
+
+Para agregar generar otra rama  
+
+    git branch nombreNuevaRama
+    
+Para generar cambios después de haber hecho actulizaciones 
+
+    git add .
+
+    git commit -m 'mensaje del commit'
+
+    
