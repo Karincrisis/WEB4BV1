@@ -1,1 +1,7 @@
 se debe ver en los pull
+
+creo que funcionó correctamente 
+
+
+Ahora esto se debe ver en github 
+los cambios se hicierón en local
