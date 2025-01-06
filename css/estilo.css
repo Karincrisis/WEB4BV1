@@ -1,0 +1,91 @@
+/*Abner Ismael Gálvez Hernández*/
+
+:root{
+    --primary-100:#c21d03;
+    --primary-200:#fd5732;
+    --primary-300:#ffb787;
+    --accent-100:#393939;
+    --accent-200:#bebebe;
+    --text-100:#232121;
+    --text-200:#4b4848;
+    --bg-100:#fbfbfb;
+    --bg-200:#f1f1f1;
+    --bg-300:#c8c8c8;
+}
+
+@font-face {
+    font-family: 'HarmonySans';
+    src: url(../fuentes/HarmonyOS_Sans_Regular.ttf);
+}
+body{
+    font-family: 'HarmonySans';
+    background-color: var(--bg-100);
+
+    /*la siguiente configuración usa grid para manterner el footer siempre debajo de todo el sitio*/
+    display: grid;
+    min-height: 95dvh;
+    grid-template-rows: auto 1fr auto ;
+}
+button{
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor:pointer;
+    font-size: 14px;
+    margin-right: 14px;
+    margin-bottom: 8px;
+}
+
+
+header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.logo{
+    width: 300px;
+    height: auto;
+}
+.botones-inicio{
+    display: flex;
+}
+main{
+    display: flex;
+    justify-items: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.presentacion-inicio{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+
+}
+.presentacion-texto{
+    width: 720px;
+}
+.imagen-inicio{
+    border-radius: 20px;
+    width: 720px;
+}
+
+footer{
+    text-align: center;
+}
+.contacto{
+    display: flex;
+    justify-content: space-around;
+    justify-items: center;
+}
+.iconos{
+    display: flex;
+    justify-content: space-around;
+}
+.icono{
+    width: 50px;
+}
+:hover.icono{
+    transform: scale(1.5);
+}
