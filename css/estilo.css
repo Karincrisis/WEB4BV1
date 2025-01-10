@@ -50,6 +50,27 @@ label{
 }
 
 
+select {
+    font-size: 16px;
+    padding-right: 8px;
+    margin: 3px;
+    border: 2px solid var(--accent-100);
+    border-radius: 5px;
+    /*width: 200px;  /* Puedes ajustar el tamaño */
+}
+/* Estilo para las opciones dentro del <select> */
+select option {
+    background-color: #ffffff;
+    color: #333;
+    padding: 10px;
+    border: none;  /* Los bordes de <option> no siempre se ven */
+}
+/* Cambiar el color de la opción seleccionada */
+select option:checked {
+    background-color: var(--primary-300);
+    color: white;
+}
+
 
 /*Estilo generico para los formularios*/
 .contenedorFormulario{
