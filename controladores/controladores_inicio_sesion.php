@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Escapar entradas
         $nombreUsuario = $conexion->real_escape_string($nombreUsuario);
 
-        $consulta = "SELECT * FROM usuario WHERE nombreUsuario = '$nombreUsuario'";
+        $consulta = "SELECT * FROM usuarios WHERE nombreUsuario = '$nombreUsuario'";
         $resultado = $conexion->query($consulta);
 
         if ($resultado && $resultado->num_rows > 0) {

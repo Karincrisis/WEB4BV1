@@ -1,17 +1,17 @@
-
 create database tantsevat character set utf8mb4 collate utf8mb4_spanish_ci;
 use tantsevat;
 
-create table usuario(
+create table usuarios(
     idUsuario int unsigned zerofill auto_increment primary key,
     nombreUsuario varchar(30) unique not null,
     contrasenia varchar(70) not null,
-    tipoUsuario enum('administrador','empleador','candidato') not null;
+    tipoUsuario varchar(13),
+    check(tipoUsuario in ('administrador', 'empleador', 'candidato'))
 );
 
 create table domicilios(
     idDomicilio int unsigned zerofill auto_increment primary key,
-    estado varchar(30) not null,
+    estado varchar(20) not null,
     municipio varchar(50) not null,
     colonia varchar(50) not null, 
     calle varchar(50) not null, 
@@ -32,7 +32,6 @@ create table empleadores(
     foreign key (idUsuario) references usuarios(idUsuario)
 );
 
-
 create table candidatos (
     idCandidato int unsigned zerofill auto_increment primary key,
     idUsuario int unsigned not null,
@@ -48,13 +47,12 @@ create table candidatos (
     foreign key (idUsuario) references usuarios(idUsuario)
 );
 
-
 create table ofertas (
     idOferta int unsigned zerofill auto_increment primary key,
     puesto varchar(50) not null,
-    sueldo decimal(10,2) check(sueldo > 0) not null,
+    sueldo decimal(10,2) check(sueldo > 0),
     descripcion varchar(300) not null,
-    cantidadVacantes int(4) not null,
+    cantidadVacantes int(4) check( cantidadVacantes > 0),
     industria varchar(30),
     duracionContrato enum('temporal', 'indefinido') not null,
     horario varchar(50),
@@ -65,11 +63,12 @@ create table ofertas (
     foreign key (idDomicilio) references domicilios(idDomicilio)
 );
 
-create table aplicaciones (
+create table aplicaciones(
     idAplicacion int unsigned zerofill auto_increment primary key,
     idCandidato int unsigned not null,
     idOferta int unsigned not null,
     fechaAplicacion date not null,
+    estadoAplicacion enum('pendiente','aceptado','rechazado') default 'pendiente',
     foreign key(idCandidato) references candidatos(idCandidato),
     foreign key(idOferta) references ofertas(idOferta)
 );
