@@ -1,50 +1,65 @@
 <?php
 // Abner Ismael Gálvez Hernández
-    include('./conexion.php');
-// Verificar si los datos fueron enviados por el formulario
+// Diana Karina Zarate Sanchez
+include('./conexion.php');
+
+// Mostrar errores de PHP para depuración
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    // Obtener los datos del formulario
     $nombreUsuario = $_POST['nombreUsuario'];
     $contrasenia = $_POST['contrasenia'];
 
-    // Conectar a la base de datos
     $conexion = conectar();
 
     if ($conexion) {
-        // Escapar los datos para evitar inyecciones SQL
+        // Escapar entradas
         $nombreUsuario = $conexion->real_escape_string($nombreUsuario);
-        $contrasenia = $conexion->real_escape_string($contrasenia);
 
-        $consulta = "SELECT * FROM usuarios WHERE nombreUsuario = '$nombreUsuario'";
+        $consulta = "SELECT * FROM usuario WHERE nombreUsuario = '$nombreUsuario'";
         $resultado = $conexion->query($consulta);
 
         if ($resultado && $resultado->num_rows > 0) {
-            // El usuario existe, obtener datos
             $usuario = $resultado->fetch_assoc();
 
-            // Verificar si la contraseña es correcta (suponiendo que está almacenada como un hash)
+            // Verificar contraseña
             if (password_verify($contrasenia, $usuario['contrasenia'])) {
-                // Iniciar sesión y redirigir al usuario
                 session_start();
-                $_SESSION['usuario_id'] = $usuario['id'];
+                $_SESSION['usuario_id'] = $usuario['idUsuario'];
                 $_SESSION['nombreUsuario'] = $usuario['nombreUsuario'];
-                header("Location: ../vistas/inicio.php"); // Redirigir a la página principal o dashboard
+                $_SESSION['tipoUsuario'] = $usuario['tipoUsuario'];
+
+                // Redirigir según tipo de usuario
+                switch ($usuario['tipoUsuario']) {
+                    case 'empleador':
+                        header("Location: ../secciones/Empleador.php");
+                        break;
+                    case 'candidato':
+                        header("Location: ../secciones/Candidato.php");
+                        break;
+                    case 'administrador':
+                        header("Location: ../secciones/Administrador.php");
+                        break;
+                    default:
+                        header("Location: ../secciones/error.php?error=" . urlencode("Tipo de usuario no reconocido."));
+                }
                 exit();
             } else {
                 // Contraseña incorrecta
-                $error = "Contraseña incorrecta.";
+                header("Location: ../secciones/error.php?error=" . urlencode("Contraseña incorrecta."));
             }
         } else {
-            // El usuario no existe
-            $error = "El usuario o correo no existe.";
+            // Usuario no encontrado
+            header("Location: ../secciones/error.php?error=" . urlencode("Usuario no encontrado."));
         }
-
-        // Cerrar la conexión
         cerrarConexion($conexion);
     } else {
-        $error = "No se pudo conectar a la base de datos.";
+        header("Location: ../secciones/error.php?error=" . urlencode("Error de conexión a la base de datos."));
     }
+} else {
+    header("Location: ../secciones/error.php?error=" . urlencode("Método de solicitud no válido."));
 }
-
+exit();
 ?>

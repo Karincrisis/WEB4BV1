@@ -23,6 +23,8 @@ function conectar()
 		return false;
 	}
 }
+
+
 function cerrarConexion($conexion){
 	if ($conexion)
 	{
