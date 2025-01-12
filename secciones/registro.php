@@ -3,7 +3,7 @@
 ?>
 <main>
 
-
+<div class="contenedorFormulario">
 <!-- Formulario de Registro -->
 <form action="" method="POST">
     <h2>Registro de Usuario</h2>
@@ -90,7 +90,7 @@
 
     <button type="submit">Registrar</button>
 </form>
-
+</div>
 <script>
     // Función para mostrar los campos específicos dependiendo del tipo de usuario
     function mostrarCamposEspecificos() {
@@ -114,7 +114,6 @@
         }
     });
 </script>
-
 </main>
 <?php
     include('../plantillas/pie.php');
