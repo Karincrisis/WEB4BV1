@@ -8,10 +8,8 @@ function conectar()
 	$clave = 'W3B#t4nts3v4t';
 	$baseDatos = 'tantsevat';
 	$charset = 'utf8mb4';
-
-	$pdoCon = 'mysql:host=$servidor;dbname=$baseDatos;charset=$charset';
 	try{
-		$conexion = new PDO($pdoCon,$usuario,$clave);
+		$conexion = new PDO('mysql:host=localhost;dbname=tantsevat', $usuario, $clave);
 		$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		return $conexion;
 	}

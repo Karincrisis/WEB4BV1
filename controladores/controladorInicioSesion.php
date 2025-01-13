@@ -28,7 +28,7 @@
                         $_SESSION['estado'] = $usuario['estadoUsuario']; 
                         $_SESSION['rol'] = $usuario['tipoUsuario']; 
 
-                        $redireccion = 'Location: ../secciones'.$_SESSION['rol'].'.php' ; //redirecciona a la vista correspondiente 
+                        $redireccion = 'Location: ../secciones/'.$_SESSION['rol'].'.php' ; //redirecciona a la vista correspondiente 
 
                         header($redireccion);
                         exit();

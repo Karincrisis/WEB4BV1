@@ -1,6 +1,6 @@
 <?php
 
-	$contrasenia = 'tantsevat';
+	$contrasenia = 'admin1000';
 	
 	$hash = password_hash ($contrasenia, PASSWORD_DEFAULT);
 
@@ -10,4 +10,12 @@
 	}else{
 		echo 'contraseña generada incorrectamente';
 	}
+
+
+
+	/* admin -> admin1000 
+	 * candidato -> candidato
+	 * empleador -> empleador
+	 *
+	 * */
 ?>
