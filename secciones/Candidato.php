@@ -1,50 +1,18 @@
 <?php
-//Abner Ismael Gálvez Hernández
-include('../plantillas/cabecera.php');
-?>
+// Abner Ismael Gálvez Hernández
+// Diana Karina Zarate Sanchez
 
-<?php
 session_start();
+include('../plantillas/cabecera.php'); // Incluir plantilla para el header
+include('../controladores/controladores_vistas.php'); // Incluir el archivo de controladores
 
 // Verificar si el usuario está logueado como candidato
-if (!isset($_SESSION['usuario_id']) || $_SESSION['tipoUsuario'] !== 'candidato') {
-    header("Location: ../secciones/error.php?error=" . urlencode("Acceso no autorizado."));
-    exit();
-}
+verificarSesionCandidato();
 
-$usuario_id = $_SESSION['usuario_id']; // Usar idUsuario para buscar el candidato
+$usuario_id = $_SESSION['usuario_id'];
+$candidato_id = obtenerIdCandidato($usuario_id);
+verificarCandidato($candidato_id);
 
-// Conectar a la base de datos
-$host = 'localhost';
-$db = 'tantsevat';
-$user = 'admin';
-$pass = 'W3B#t4nts3v4t';
-$charset = 'utf8mb4';
-
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-$options = [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES => false,
-];
-
-try {
-    $pdo = new PDO($dsn, $user, $pass, $options);
-} catch (\PDOException $e) {
-    throw new \PDOException($e->getMessage(), (int)$e->getCode());
-}
-
-// Obtener el idCandidato basado en idUsuario
-$stmt = $pdo->prepare("SELECT idCandidato FROM candidatos WHERE idUsuario = :idUsuario");
-$stmt->execute(['idUsuario' => $usuario_id]);
-$candidato = $stmt->fetch();
-
-if (!$candidato) {
-    echo "Candidato no encontrado.";
-    exit;
-}
-
-$candidato_id = $candidato['idCandidato']; // Ahora se usa idCandidato
 ?>
 
 <!DOCTYPE html>
@@ -123,23 +91,19 @@ $candidato_id = $candidato['idCandidato']; // Ahora se usa idCandidato
 </head>
 <body>
     <div id="main-container">
-        <!-- Sidebar con los botones -->
         <div id="sidebar">
             <button id="ofertas-btn">Ofertas</button>
             <button id="aplicaciones-btn">Aplicaciones</button>
             <button id="datos-btn">Datos</button>
         </div>
 
-        <!-- Contenedor principal -->
         <div id="filter-container">
-            <!-- Filtro -->
             <form id="filter-form">
                 <select id="filter-select" name="filtro">
                     <!-- Las opciones se llenarán con JavaScript -->
                 </select>
             </form>
 
-            <!-- Contenedor del iframe -->
             <div id="content">
                 <iframe id="iframe-content" src="about:blank"></iframe>
             </div>
@@ -147,14 +111,12 @@ $candidato_id = $candidato['idCandidato']; // Ahora se usa idCandidato
     </div>
 
     <script>
-        // Referencias a los elementos
         const iframe = document.getElementById("iframe-content");
         const filterSelect = document.getElementById("filter-select");
         const ofertasBtn = document.getElementById("ofertas-btn");
         const aplicacionesBtn = document.getElementById("aplicaciones-btn");
         const datosBtn = document.getElementById("datos-btn");
 
-        // Eventos para cargar las páginas correspondientes en el iframe
         ofertasBtn.addEventListener("click", () => {
             iframe.src = "../secciones/ofertas.php";
             updateFilterOptions([" ", "industria", "salario", "proximidad"]);
@@ -162,19 +124,16 @@ $candidato_id = $candidato['idCandidato']; // Ahora se usa idCandidato
 
         aplicacionesBtn.addEventListener("click", () => {
             iframe.src = "../secciones/aplicaciones.php";
-            updateFilterOptions([]); // Pasamos un array vacío para que no haya opciones en el filtro
+            updateFilterOptions([]);
         });
 
         datosBtn.addEventListener("click", () => {
             iframe.src = "../secciones/datos_candidato.php";
-            updateFilterOptions([]); // Pasamos un array vacío para que no haya opciones en el filtro
+            updateFilterOptions([]);
         });
 
-        // Función para actualizar las opciones del filtro
         function updateFilterOptions(options) {
-            filterSelect.innerHTML = ""; // Vaciar las opciones actuales
-            
-            // Si hay opciones, las agregamos al filtro
+            filterSelect.innerHTML = "";
             if (options.length > 0) {
                 options.forEach(option => {
                     const opt = document.createElement("option");
@@ -183,7 +142,6 @@ $candidato_id = $candidato['idCandidato']; // Ahora se usa idCandidato
                     filterSelect.appendChild(opt);
                 });
             } else {
-                // Si no hay opciones, mostramos un mensaje vacío o no hacemos nada
                 const opt = document.createElement("option");
                 opt.disabled = true;
                 opt.textContent = "Sin filtros disponibles";
@@ -191,12 +149,10 @@ $candidato_id = $candidato['idCandidato']; // Ahora se usa idCandidato
             }
         }
 
-        // Función para capitalizar la primera letra de las palabras
         function capitalize(str) {
             return str.charAt(0).toUpperCase() + str.slice(1);
         }
 
-        // Función para manejar el cambio en el select
         filterSelect.addEventListener("change", () => {
             const selectedOption = filterSelect.value;
             switch (selectedOption) {
@@ -210,13 +166,14 @@ $candidato_id = $candidato['idCandidato']; // Ahora se usa idCandidato
                     iframe.src = "../secciones/ofertas.php?filtro=proximidad";
                     break;
                 default:
-                    iframe.src = "about:blank"; // O cualquier página que quieras mostrar por defecto
+                    iframe.src = "about:blank";
                     break;
             }
         });
     </script>
 </body>
 </html>
+
 <?php
-include('../plantillas/pie.php');
+include('../plantillas/pie.php'); // Incluir plantilla para el footer
 ?>

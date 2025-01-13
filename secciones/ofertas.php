@@ -1,135 +1,32 @@
 <?php
 // Iniciar sesión para obtener el candidato
 session_start();
+include('../controladores/controladores_vistas.php'); // Incluir las funciones del controlador de vistas
 
-if (!isset($_SESSION['usuario_id'])) {
-    echo "No hay un usuario con sesión iniciada.";
-    exit;
-}
+verificarSesion();
 
 $usuario_id = $_SESSION['usuario_id'];  // Usar idUsuario para identificar al candidato
+$candidato_id = obtenerIdCandidato($usuario_id); // Obtener idCandidato del usuario
 
-// Conectar a la base de datos
-$host = 'localhost';
-$db = 'tantsevat';
-$user = 'admin';
-$pass = 'W3B#t4nts3v4t';
-$charset = 'utf8mb4';
-
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-$options = [
-    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES => false,
-];
-
-try {
-    $pdo = new PDO($dsn, $user, $pass, $options);
-} catch (\PDOException $e) {
-    throw new \PDOException($e->getMessage(), (int)$e->getCode());
-}
-
-// Obtener el idCandidato, industria, aspiración salarial y domicilio del candidato usando el idUsuario
-$stmt = $pdo->prepare("SELECT idCandidato, industria, aspiracionSalarial, idDomicilio FROM candidatos WHERE idUsuario = :idUsuario");
-$stmt->execute(['idUsuario' => $usuario_id]);
-$candidato = $stmt->fetch();
-
-if (!$candidato) {
+if (!$candidato_id) {
     echo "Candidato no encontrado.";
     exit;
 }
 
-$candidato_id = $candidato['idCandidato']; // Usar idCandidato
+// Obtener los datos del candidato
+
+$candidato = obtenerDatosCandidato($candidato_id);
 $industria = $candidato['industria'];
 $aspiracionSalarial = $candidato['aspiracionSalarial'];
 $idDomicilio = $candidato['idDomicilio'];
 
 // Obtener el filtro desde la URL
-$filtro = isset($_GET['filtro']) ? $_GET['filtro'] : 'default';  // Por defecto, se usa 'industria'
 
-// Funciones para obtener ofertas según diferentes criterios
-function getOffersByIndustry($pdo, $industry) {
-    $stmt = $pdo->prepare("SELECT * FROM ofertas WHERE industria = :industry");
-    $stmt->execute(['industry' => $industry]);
-    return $stmt->fetchAll();
-}
+$filtro = isset($_GET['filtro']) ? $_GET['filtro'] : 'default';
 
-// Búsqueda por salario (sin cambios)
-function getOffersBySalary($pdo, $salary) {
-    $stmt = $pdo->prepare("SELECT * FROM ofertas WHERE sueldo >= :salary");
-    $stmt->execute(['salary' => $salary]);
-    return $stmt->fetchAll();
-}
+// Obtener las ofertas según el filtro
 
-function getOffersByProximity($pdo, $candidateDomicilioId) {
-    // Obtener el estado del domicilio del candidato
-    $stmt = $pdo->prepare("
-        SELECT estado 
-        FROM domicilios 
-        WHERE idDomicilio = :idDomicilio
-    ");
-    $stmt->execute(['idDomicilio' => $candidateDomicilioId]);
-    $candidateDomicilio = $stmt->fetch();
-
-    if (!$candidateDomicilio) {
-        return []; // Si no se encuentra el domicilio, devolver lista vacía
-    }
-
-    $estadoCandidato = $candidateDomicilio['estado'];
-
-    // Buscar ofertas cuyo estado coincida con el estado del domicilio del candidato
-    $stmt = $pdo->prepare("
-        SELECT o.* 
-        FROM ofertas o
-        JOIN domicilios d ON o.idDomicilio = d.idDomicilio
-        WHERE d.estado = :estado
-    ");
-    $stmt->execute(['estado' => $estadoCandidato]);
-
-    return $stmt->fetchAll();
-}
-
-// Función para obtener todas las ofertas
-function getAllOffers($pdo) {
-    $stmt = $pdo->prepare("SELECT * FROM ofertas");
-    $stmt->execute();
-    return $stmt->fetchAll();
-}
-
-
-
-// Lógica para obtener las ofertas según el filtro
-switch ($filtro) {
-    case 'industria':
-        $offers = getOffersByIndustry($pdo, $industria);
-        break;
-
-    case 'salario':
-        $offers = getOffersBySalary($pdo, $aspiracionSalarial);
-        break;
-
-    case 'proximidad':
-        $offers = getOffersByProximity($pdo, $idDomicilio);
-        break;
-
-    default:
-        $offers = getAllOffers($pdo);
-        break;
-}
-
-// Función para obtener los datos del domicilio asociado a la oferta
-function getDomicilioData($pdo, $domicilioId) {
-    $stmt = $pdo->prepare("SELECT * FROM domicilios WHERE idDomicilio = :idDomicilio");
-    $stmt->execute(['idDomicilio' => $domicilioId]);
-    return $stmt->fetch();
-}
-
-// Función para verificar si el candidato ya ha aplicado a una oferta
-function hasAppliedToOffer($pdo, $candidato_id, $oferta_id) {
-    $stmt = $pdo->prepare("SELECT * FROM aplicaciones WHERE idCandidato = :idCandidato AND idOferta = :idOferta");
-    $stmt->execute(['idCandidato' => $candidato_id, 'idOferta' => $oferta_id]);
-    return $stmt->fetch() !== false;
-}
+$offers = obtenerOfertas($filtro, $candidato_id);
 
 ?>
 
@@ -201,17 +98,14 @@ function hasAppliedToOffer($pdo, $candidato_id, $oferta_id) {
         <?php foreach ($offers as $offer): ?>
             <?php
             // Obtener los datos del domicilio de la oferta
-            $domicilioData = getDomicilioData($pdo, $offer['idDomicilio']);
-            $direccion = '';
+            $domicilioData = obtenerDomicilioCandidato($offer['idDomicilio']);
+            $googleMapsUrl = '';
             if ($domicilioData) {
-                $direccion = urlencode($domicilioData['estado'] . ', ' . 
-                                       $domicilioData['municipio'] . ', ' . 
-                                       $domicilioData['colonia']);
-                $googleMapsUrl = "https://www.google.com/maps?q=" . $direccion;
+                $googleMapsUrl = generarUrlGoogleMaps($domicilioData);
             }
 
             // Verificar si el candidato ya ha aplicado a la oferta
-            $applied = hasAppliedToOffer($pdo, $candidato_id, $offer['idOferta']);
+            $applied = verificarAplicacionOferta($candidato_id, $offer['idOferta']);
             ?>
 
             <div class="offer">
@@ -227,7 +121,7 @@ function hasAppliedToOffer($pdo, $candidato_id, $oferta_id) {
                                htmlspecialchars($domicilioData['colonia']); ?>
                     </p>
                     <h3>Ubicación en Google Maps</h3>
-                    <iframe src="https://www.google.com/maps?q=<?php echo $direccion; ?>&output=embed" 
+                    <iframe src="<?php echo $googleMapsUrl; ?>" 
                             width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                 <?php else: ?>
                     <p>No se encontró la ubicación para esta oferta.</p>

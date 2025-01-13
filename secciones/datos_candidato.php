@@ -1,63 +1,25 @@
 <?php
 session_start();
+include('../controladores/controladores_vistas.php');  // Incluye el archivo de controladores
 
 // Verificar si el usuario está logueado como candidato
-if (!isset($_SESSION['usuario_id']) || $_SESSION['tipoUsuario'] !== 'candidato') {
-    header("Location: ../secciones/error.php?error=" . urlencode("Acceso no autorizado."));
-    exit();
-}
 
-$host = 'localhost';
-$db = 'tantsevat';
-$user = 'admin';
-$pass = 'W3B#t4nts3v4t';
-$charset = 'utf8mb4';
-
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
-$options = [
-    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-    PDO::ATTR_EMULATE_PREPARES   => false,
-];
-
-try {
-    $pdo = new PDO($dsn, $user, $pass, $options);
-} catch (\PDOException $e) {
-    die("Error de conexión a la base de datos: " . $e->getMessage());
-}
-
-// Función para obtener los datos del candidato
-function getCandidateData($pdo, $userId) {
-    $stmt = $pdo->prepare("SELECT * FROM candidatos WHERE idCandidato = :idCandidato");
-    $stmt->execute(['idCandidato' => $userId]);
-
-    return $stmt->fetch();
-}
-
-// Función para obtener los detalles del domicilio
-function getDomicilioData($pdo, $domicilioId) {
-    $stmt = $pdo->prepare("SELECT * FROM domicilios WHERE idDomicilio = :idDomicilio");
-    $stmt->execute(['idDomicilio' => $domicilioId]);
-
-    return $stmt->fetch();
-}
-
+verificarSesionCandidato();
 $userId = $_SESSION['usuario_id'];
-$candidateData = getCandidateData($pdo, $userId);
+$candidateData = obtenerDatosCandidatoDesdeId($userId);
 
 // Obtener los datos del domicilio si existe un idDomicilio válido
 $domicilioData = null;
+
 if ($candidateData && isset($candidateData['idDomicilio'])) {
-    $domicilioData = getDomicilioData($pdo, $candidateData['idDomicilio']);
+    $domicilioData = obtenerDomicilioCandidato($candidateData['idDomicilio']);
 }
 
 // Generar URL para Google Maps
-$direccion = '';
+
+$googleMapsUrl = '';
 if ($domicilioData) {
-    $direccion = urlencode($domicilioData['estado'] . ', ' . 
-                           $domicilioData['municipio'] . ', ' . 
-                           $domicilioData['colonia']);
-    $googleMapsUrl = "https://www.google.com/maps?q=" . $direccion;
+    $googleMapsUrl = generarUrlGoogleMaps($domicilioData);
 }
 ?>
 
@@ -91,8 +53,7 @@ if ($domicilioData) {
                            htmlspecialchars($domicilioData['numeroExterior']); ?>
             </p>
             <h3>Ubicación en Google Maps</h3>
-            <iframe src="https://www.google.com/maps?q=<?php echo $direccion; ?>&output=embed" 
-                    width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            <iframe src="<?php echo $googleMapsUrl; ?>" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
         <?php else: ?>
             <p>No se encontraron datos de domicilio para este candidato.</p>
         <?php endif; ?>
