@@ -1,4 +1,5 @@
 <?php
+    include('../controladores/');
     include('../plantillas/cabecera.php');
 ?>
 

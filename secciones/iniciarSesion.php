@@ -10,7 +10,7 @@ include('../plantillas/cabecera.php');
 	<div class="contenedorFormulario">
         <h3>Bienvenido, ingresa tus datos de inicio de sesión</h3>
 
-		<form class="formulario" method="post" action="../controladores/controlador_inicio_sesion.php">
+		<form class="formulario" method="POST" action="../controladores/controladorInicioSesion.php">
 
 		<label>Nombre de usuario o correo</label>
 		<input type="text" name="nombreUsuario" required>	

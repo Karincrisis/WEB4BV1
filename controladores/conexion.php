@@ -7,28 +7,28 @@ function conectar()
 	$usuario = 'admin';
 	$clave = 'W3B#t4nts3v4t';
 	$baseDatos = 'tantsevat';
+	$charset = 'utf8mb4';
 
+	$pdoCon = 'mysql:host=$servidor;dbname=$baseDatos;charset=$charset';
 	try{
-		$conexion = new mysqli($servidor,$usuario,$clave,$baseDatos);
-		 // Verificar si la conexión es exitosa
-
-        if ($conexion->connect_error) {
-            throw new mysqli_sql_exception("Conexión fallida: " . $conexion->connect_error);
-        }
-		$conexion->set_charset('utf8');
+		$conexion = new PDO($pdoCon,$usuario,$clave);
+		$conexion->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		return $conexion;
-	}catch (mysqli_sql_exception $e){
-		// Registro del error
-        error_log($e->getMessage());
+	}
+	catch (PDOException $e){
+		error_log('conexion fallida: '.$e->getMessage());
 		return false;
 	}
 }
-
-
 function cerrarConexion($conexion){
 	if ($conexion)
 	{
 		$conexion->close();
 	}
+}
+
+function limpiarCadenas($cadena){
+	$cadena = trim(htmlspecialchars($cadena));
+	return $cadena;
 }
 ?>
