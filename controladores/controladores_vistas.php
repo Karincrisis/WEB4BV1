@@ -169,33 +169,58 @@ function obtenerOfertas($filtro, $candidato_id) {
 
     switch ($filtro) {
         case 'industria':
-            $stmt = $conexion->prepare("SELECT * FROM ofertas WHERE industria = (SELECT industria FROM candidatos WHERE idCandidato = ?) && estado = 'visible'");
+            $stmt = $conexion->prepare("
+                SELECT o.* 
+                FROM ofertas o
+                LEFT JOIN aplicaciones a ON o.idOferta = a.idOferta
+                WHERE o.industria = (SELECT industria FROM candidatos WHERE idCandidato = ?)
+                AND o.estado = 'visible'
+                AND (a.estadoAplicacion IS NULL OR a.estadoAplicacion = 'pendiente')
+            ");
             break;
         case 'salario':
-            $stmt = $conexion->prepare("SELECT * FROM ofertas WHERE sueldo >= (SELECT aspiracionSalarial FROM candidatos WHERE idCandidato = ?) && estado = 'visible'");
+            $stmt = $conexion->prepare("
+                SELECT o.* 
+                FROM ofertas o
+                LEFT JOIN aplicaciones a ON o.idOferta = a.idOferta
+                WHERE o.sueldo >= (SELECT aspiracionSalarial FROM candidatos WHERE idCandidato = ?)
+                AND o.estado = 'visible'
+                AND (a.estadoAplicacion IS NULL OR a.estadoAplicacion = 'pendiente')
+            ");
             break;
         case 'proximidad':
-            $stmt = $conexion->prepare("SELECT o.* 
-            FROM ofertas o 
-            JOIN domicilios d ON o.idDomicilio = d.idDomicilio 
-            WHERE o.estado = 'visible' 
-            AND d.estado = (SELECT estado FROM domicilios WHERE idDomicilio = (SELECT idDomicilio FROM candidatos WHERE idCandidato = ?))");
+            $stmt = $conexion->prepare("
+                SELECT o.* 
+                FROM ofertas o
+                JOIN domicilios d ON o.idDomicilio = d.idDomicilio
+                LEFT JOIN aplicaciones a ON o.idOferta = a.idOferta
+                WHERE o.estado = 'visible'
+                AND d.estado = (SELECT estado FROM domicilios WHERE idDomicilio = (SELECT idDomicilio FROM candidatos WHERE idCandidato = ?))
+                AND (a.estadoAplicacion IS NULL OR a.estadoAplicacion = 'pendiente')
+            ");
             break;
         default:
-            $stmt = $conexion->prepare("SELECT * FROM ofertas WHERE estado = 'visible'");
+            $stmt = $conexion->prepare("
+                SELECT o.* 
+                FROM ofertas o
+                LEFT JOIN aplicaciones a ON o.idOferta = a.idOferta
+                WHERE o.estado = 'visible'
+                AND (a.estadoAplicacion IS NULL OR a.estadoAplicacion = 'pendiente')
+            ");
             break;
     }
 
     if ($filtro !== 'default') {
         $stmt->bind_param("i", $candidato_id);
     }
-    
+
     $stmt->execute();
     $resultado = $stmt->get_result();
     $ofertas = $resultado->fetch_all(MYSQLI_ASSOC);
     cerrarConexion($conexion);
     return $ofertas;
 }
+
 
 // Función para obtener los datos del candidato
 function obtenerDatosCandidatoDesdeId($usuario_id) {
@@ -507,5 +532,70 @@ function publicarOfertaFormulario() {
         header('Location: ../secciones/publicaciones.php');
         exit();
     }
+}
+
+// Obtener solicitudes para el empleador actual
+function obtenerSolicitudes($idEmpleador) {
+    $conexion = conectar();
+
+    if (!$conexion) {
+        return [];
+    }
+
+    $sql = "SELECT a.idAplicacion, c.nombre, c.apellidoPaterno, c.apellidoMaterno, c.escolaridad, 
+                   c.industria AS industriaCandidato, c.aspiracionSalarial, o.puesto, o.sueldo, 
+                   o.industria AS industriaOferta, o.descripcion, a.estadoAplicacion
+            FROM aplicaciones a
+            JOIN candidatos c ON a.idCandidato = c.idCandidato
+            JOIN ofertas o ON a.idOferta = o.idOferta
+            WHERE o.idEmpleador = ?";
+
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param('i', $idEmpleador);
+    $stmt->execute();
+
+    $resultado = $stmt->get_result();
+    $solicitudes = $resultado->fetch_all(MYSQLI_ASSOC);
+
+    cerrarConexion($conexion);
+    return $solicitudes;
+}
+
+// Calcular porcentaje de coincidencia
+function calcularCompatibilidad($candidato, $oferta) {
+    $coincidencias = 0;
+    $totalFactores = 3; // Industria, escolaridad, aspiración salarial
+
+    if ($candidato['industriaCandidato'] === $oferta['industriaOferta']) {
+        $coincidencias++;
+    }
+
+    if (strtolower($candidato['escolaridad']) !== 'ninguna') {
+        $coincidencias++;
+    }
+
+    if ($candidato['aspiracionSalarial'] <= $oferta['sueldo']) {
+        $coincidencias++;
+    }
+
+    return round(($coincidencias / $totalFactores) * 100, 2);
+}
+
+// Actualizar el estado de una solicitud
+function actualizarEstadoSolicitud($idAplicacion, $nuevoEstado) {
+    $conexion = conectar();
+
+    if (!$conexion) {
+        return false;
+    }
+
+    $sql = "UPDATE aplicaciones SET estadoAplicacion = ? WHERE idAplicacion = ?";
+    $stmt = $conexion->prepare($sql);
+    $stmt->bind_param('si', $nuevoEstado, $idAplicacion);
+
+    $resultado = $stmt->execute();
+    cerrarConexion($conexion);
+
+    return $resultado;
 }
 ?>

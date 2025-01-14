@@ -5,7 +5,7 @@ create table usuarios(
     idUsuario int unsigned zerofill auto_increment primary key,
     nombreUsuario varchar(30) unique not null,
     contrasenia varchar(70) not null,
-    tipoUsuario varchar(13),
+    tipoUsuario varchar(13)
     check(tipoUsuario in ('administrador', 'empleador', 'candidato'))
 );
 
@@ -57,6 +57,7 @@ create table ofertas (
     duracionContrato enum('temporal', 'indefinido') not null,
     horario varchar(50),
     fechaExpiracion date not null,
+    estado ENUM('visible', 'oculta') DEFAULT 'visible',
     idEmpleador int unsigned,
     idDomicilio int unsigned,
     foreign key (idEmpleador) references empleadores(idEmpleador),

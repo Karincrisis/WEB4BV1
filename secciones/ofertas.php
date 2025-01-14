@@ -129,7 +129,7 @@ $offers = obtenerOfertas($filtro, $candidato_id);
 
                 <!-- Botón aplicar -->
                 <?php if (!$applied): ?>
-                    <a href="aplicar.php?idOferta=<?php echo $offer['idOferta']; ?>" class="apply-button">Aplicar</a>
+                    <a href="../controladores/aplicar_oferta.php?idOferta=<?php echo $offer['idOferta']; ?>" class="apply-button">Aplicar</a>
                 <?php else: ?>
                     <button class="apply-button disabled" disabled>Ya aplicaste a esta oferta</button>
                 <?php endif; ?>
