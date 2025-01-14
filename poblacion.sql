@@ -1,28 +1,27 @@
--- Insertar usuarios
+
 INSERT INTO usuarios (nombreUsuario, contrasenia, tipoUsuario) VALUES
 ('admin_user', '$2y$10$zyDZH6c8XDJ3nNQj9P659u8d0/8onNDMCrvy9DpvUk3CTMiXmD642', 'administrador'),
-('candidato1', '', 'candidato'),
-('candidato2', '', 'candidato'),
-('candidato3', '', 'candidato'),
-('candidato4', '', 'candidato'),
-('candidato5', '', 'candidato'),
-('candidato6', '', 'candidato'),
-('candidato7', '', 'candidato'),
-('candidato8', '', 'candidato'),
-('candidato9', '', 'candidato'),
-('candidato10', '', 'candidato'),
-('empleador1', '', 'empleador'),
-('empleador2', '', 'empleador'),
-('empleador3', '', 'empleador'),
-('empleador4', '', 'empleador'),
-('empleador5', '', 'empleador'),
-('empleador6', '', 'empleador'),
-('empleador7', '', 'empleador'),
-('empleador8', '', 'empleador'),
-('empleador9', '', 'empleador'),
-('empleador10', '', 'empleador');
+('candidato1', '$2y$10$2BLnVJGwg9SMvILQL3dZvege4cGAkXTU0XG3gDU4.KevTh3QYr3wm', 'candidato'),
+('candidato2', '$2y$10$dAdiVV7PB/PIDlwydFuEB.3YWq6/sF/xwBBYGV7TLkjlzn69kzRAe', 'candidato'),
+('candidato3', '$2y$10$/srHQsI/lOLxYbvauOaiDO0dTkq8P/uAjBjJzrxjtXElNtpzybJm2', 'candidato'),
+('candidato4', '$2y$10$j65Y74FpIW/da8sUWrur3.94eiuBXA/Ff5Ag85pFfNs0io3t2zBm2', 'candidato'),
+('candidato5', '$2y$10$qtK6IiM4dfMhnwP9kWByU.NaloVwZOxiplajP7OY7H/ZBG4MYjEn.', 'candidato'),
+('candidato6', '$2y$10$9RFiIvMt/JDacNAmvtc5dOIplatJGc4rRGe14VIF4c/akNhBRrn2C', 'candidato'),
+('candidato7', '$2y$10$RWiXXdzYhjoSxKIyRTB8DO96O/SSwTxgw1sCwpbGRFX6mYuouCB8a', 'candidato'),
+('candidato8', '$2y$10$FYDhDuW9b28R8Z1G801zRuZa2gttgCMpxRIC43NrKWzPV/.jBpI.q', 'candidato'),
+('candidato9', '$2y$10$cs22yj2XKyuTHBjLcss/COus/t27Oq5ydYLP2gWqnJE7.1Dhe6pt6', 'candidato'),
+('candidato10','$2y$10$hN1epA9SIj/4eMVuDx8ebOtV/4.r85Xf6UlzMlchDqBuG5lS/SS1i', 'candidato'),
+('empleador1', '$2y$10$4vzd1ZC6lhn/uXmxfUwCT.OvMEyeqa/MUGZITpK6RWdgzoasp0kRi', 'empleador'),
+('empleador2', '$2y$10$9RA/APt311taLVmRFqafzuaHgwU31p6ZnuDi1OhPTfb7obcJv2t96', 'empleador'),
+('empleador3', '$2y$10$pfAArRBf2UOQtOibTdQaKugdCU28EL1cW.pfMQLwXJFnWKXv8ASxS', 'empleador'),
+('empleador4', '$2y$10$Y/ukKKrhrufeHNC7RK4dh.yvuohEXEhD4FUFSHKHm6e7pjgS3SU8G', 'empleador'),
+('empleador5', '$2y$10$VIOtbFR9VzbL6xJ0qg1fQOej6RWRSg3Wh9oLe3EvlJZRLzCQC1QZ6', 'empleador'),
+('empleador6', '$2y$10$J1DTzkK5to9/c6ebXYD3MuCguJDRLEuZMOuG8.NBS9r.N5fVTnA76', 'empleador'),
+('empleador7', '$2y$10$K3OuE4CtEuREnV027WPJse40sNzErVILDsVEyTcyRKjXfnbSHa0S.', 'empleador'),
+('empleador8', '$2y$10$EdCvAKwx/9K6vreUzUENde.zH8pPjuXeXIrKy2/R2h343aljCGzXO', 'empleador'),
+('empleador9', '$2y$10$wTkgNcI.vWP9fAkWEcGSt.t0CwDTDAUZtFFHh.Im9dfhztvMJxHcO', 'empleador'),
+('empleador10','$2y$10$P4le8QiZUwF24gjTgvqFDulwOrfKuV3yQJe.ZdinMrqWYiLDtvKJS', 'empleador');
 
--- Insertar domicilios
 INSERT INTO domicilios (estado, municipio, colonia, calle, numeroExterior, numeroInterior) VALUES
 ('Jalisco', 'Guadalajara', 'Centro', 'Avenida Juárez', '123', '1'),
 ('Jalisco', 'Zapopan', 'La Estancia', 'Calle del Sol', '456', '2'),
@@ -45,7 +44,6 @@ INSERT INTO domicilios (estado, municipio, colonia, calle, numeroExterior, numer
 ('Durango', 'Durango', 'Centro', 'Calle de la Constitución', '777', '19'),
 ('Zacatecas', 'Zacatecas', 'Centro', 'Calle de la Plaza', '888', '20');
 
--- Insertar empleadores
 INSERT INTO empleadores (idUsuario, nombreEmpresa, descripcion, industria, tamano, rfc, idDomicilio) VALUES
 (12, 'Empresa A', 'Descripción de Empresa A', 'Tecnología', 'mediana', 'RFC123456789', 1),
 (13, 'Empresa B', 'Descripción de Empresa B', 'Salud', 'grande', 'RFC987654321', 2),
@@ -58,20 +56,18 @@ INSERT INTO empleadores (idUsuario, nombreEmpresa, descripcion, industria, taman
 (20, 'Empresa I', 'Descripción de Empresa I', 'Marketing', 'mediana', 'RFC999000111', 9),
 (21, 'Empresa J', 'Descripción de Empresa J', 'Salud', 'pequena', 'RFC222333444', 10);
 
--- Insertar candidatos
-INSERT INTO candidatos (idCandidato, idUsuario, nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, escolaridad, industria, aspiracionSalarial, idDomicilio) VALUES
-(2, 2, 'Juan', 'Pérez', 'García', '1990-01-15', 'Licenciatura', 'Tecnología', 30000.00, 1),
-(3, 3, 'María', 'López', 'Hernández', '1992-02-20', 'Maestría', 'Salud', 25000.00, 2),
-(4, 4, 'Carlos', 'González', 'Martínez', '1988-03-10', 'Licenciatura', 'Educación', 20000.00, 3),
-(5, 5, 'Ana', 'Ramírez', 'Sánchez', '1995-04-25', 'Licenciatura', 'Tecnología', 28000.00, 4),
-(6, 6, 'Luis', 'Torres', 'Morales', '1991-05-30', 'Licenciatura', 'Marketing', 22000.00, 5),
-(7, 7, 'Sofía', 'Flores', 'Jiménez', '1993-06-15', 'Licenciatura', 'Salud', 24000.00, 6),
-(8, 8, 'Diego', 'Hernández', 'Cruz', '1989-07-22', 'Licenciatura', 'Educación', 21000.00, 7),
-(9, 9, 'Valeria', 'Mendoza', 'Ríos', '1994-08-18', 'Licenciatura', 'Tecnología', 35000.00, 8),
-(10, 10, 'Andrés', 'Vázquez', 'Salazar', '1990-09-05', 'Licenciatura', 'Marketing', 19000.00, 9),
-(11, 11, 'Claudia', 'Jiménez', 'Pérez', '1992-10-12', 'Maestría', 'Salud', 26000.00, 10);
+INSERT INTO candidatos (idCandidato, idUsuario, nombre, apellidoPaterno, apellidoMaterno, fechaNacimiento, escolaridad,habilidades, industria, aspiracionSalarial, idDomicilio) VALUES
+(2, 2, 'Juan', 'Pérez', 'García', '1990-01-15', 'Licenciatura','Análisis de datos con python', 'Tecnología', 30000.00, 1),
+(3, 3, 'María', 'López', 'Hernández', '1992-02-20', 'Maestría','Ciruigias a corazón abierto', 'Salud', 25000.00, 2),
+(4, 4, 'Carlos', 'González', 'Martínez', '1988-03-10', 'Licenciatura','Habilidades pedagógicas' ,'Educación', 20000.00, 3),
+(5, 5, 'Ana', 'Ramírez', 'Sánchez', '1995-04-25', 'Licenciatura','Creación de sistemas seguros en Rust' ,'Tecnología', 28000.00, 4),
+(6, 6, 'Luis', 'Torres', 'Morales', '1991-05-30', 'Licenciatura','Creación de campañas con google ads y meta ads' ,'Marketing', 22000.00, 5),
+(7, 7, 'Sofía', 'Flores', 'Jiménez', '1993-06-15', 'Licenciatura','Atención en terapias de recuperación' ,'Salud', 24000.00, 6),
+(8, 8, 'Diego', 'Hernández', 'Cruz', '1989-07-22', 'Licenciatura','Ingles C2 certificado, Chino HSK 4' ,'Educación', 21000.00, 7),
+(9, 9, 'Valeria', 'Mendoza', 'Ríos', '1994-08-18', 'Licenciatura','Arquitectura de nuble Alibaba certificado' ,'Tecnología', 35000.00, 8),
+(10, 10, 'Andrés', 'Vázquez', 'Salazar', '1990-09-05', 'Licenciatura','Branding de marcas emergentees de industria hotelera' ,'Marketing', 19000.00, 9),
+(11, 11, 'Claudia', 'Jiménez', 'Pérez', '1992-10-12', 'Maestría','Especialista pediatra oncologica' ,'Salud', 26000.00, 10);
 
--- Insertar ofertas
 INSERT INTO ofertas (puesto, sueldo, descripcion, cantidadVacantes, industria, duracionContrato, horario, fechaExpiracion, idEmpleador, idDomicilio) VALUES
 ('Desarrollador', 32000.00, 'Desarrollador de software', 5, 'Tecnología', 'indefinido', '9am - 5pm', '2023-12-31', 1, 1),
 ('Médico', 24000.00, 'Médico general', 3, 'Salud', 'temporal', '8am - 4pm', '2023-11-30', 2, 2),
@@ -84,31 +80,7 @@ INSERT INTO ofertas (puesto, sueldo, descripcion, cantidadVacantes, industria, d
 ('Asistente Médico', 18000.00, 'Asistente para consulta médica', 4, 'Salud', 'temporal', '8am - 4pm', '2023-11-15', 9, 9),
 ('Desarrollador Junior', 15000.00, 'Desarrollador de software junior', 5, 'Tecnología', 'indefinido', '9am - 5pm', '2023-12-31', 10, 10);
 
--- Insertar aplicaciones
 INSERT INTO aplicaciones (idCandidato, idOferta, fechaAplicacion, estadoAplicacion) VALUES
-(2, 1, '2023-10-01', 'aceptado'),  -- Juan aplica a Desarrollador
-(2, 2, '2023-10-02', 'rechazado'), -- Juan aplica a Médico
-(2, 3, '2023-10-03', 'pendiente'); -- Juan aplica a Profesor
-
--- Modificar contraseñas de los usuarios
-UPDATE usuarios SET contrasenia = '$2y$10$zyDZH6c8XDJ3nNQj9P659u8d0/8onNDMCrvy9DpvUk3CTMiXmD642' WHERE nombreUsuario = 'admin_user';
-UPDATE usuarios SET contrasenia = '$2y$10$2BLnVJGwg9SMvILQL3dZvege4cGAkXTU0XG3gDU4.KevTh3QYr3wm' WHERE nombreUsuario = 'candidato1';
-UPDATE usuarios SET contrasenia = '$2y$10$dAdiVV7PB/PIDlwydFuEB.3YWq6/sF/xwBBYGV7TLkjlzn69kzRAe' WHERE nombreUsuario = 'candidato2';
-UPDATE usuarios SET contrasenia = '$2y$10$/srHQsI/lOLxYbvauOaiDO0dTkq8P/uAjBjJzrxjtXElNtpzybJm2' WHERE nombreUsuario = 'candidato3';
-UPDATE usuarios SET contrasenia = '$2y$10$j65Y74FpIW/da8sUWrur3.94eiuBXA/Ff5Ag85pFfNs0io3t2zBm2' WHERE nombreUsuario = 'candidato4';
-UPDATE usuarios SET contrasenia = '$2y$10$qtK6IiM4dfMhnwP9kWByU.NaloVwZOxiplajP7OY7H/ZBG4MYjEn.' WHERE nombreUsuario = 'candidato5';
-UPDATE usuarios SET contrasenia = '$2y$10$9RFiIvMt/JDacNAmvtc5dOIplatJGc4rRGe14VIF4c/akNhBRrn2C' WHERE nombreUsuario = 'candidato6';
-UPDATE usuarios SET contrasenia = '$2y$10$RWiXXdzYhjoSxKIyRTB8DO96O/SSwTxgw1sCwpbGRFX6mYuouCB8a' WHERE nombreUsuario = 'candidato7';
-UPDATE usuarios SET contrasenia = '$2y$10$FYDhDuW9b28R8Z1G801zRuZa2gttgCMpxRIC43NrKWzPV/.jBpI.q' WHERE nombreUsuario = 'candidato8';
-UPDATE usuarios SET contrasenia = '$2y$10$cs22yj2XKyuTHBjLcss/COus/t27Oq5ydYLP2gWqnJE7.1Dhe6pt6' WHERE nombreUsuario = 'candidato9';
-UPDATE usuarios SET contrasenia = '$2y$10$hN1epA9SIj/4eMVuDx8ebOtV/4.r85Xf6UlzMlchDqBuG5lS/SS1i' WHERE nombreUsuario = 'candidato10';
-UPDATE usuarios SET contrasenia = '$2y$10$4vzd1ZC6lhn/uXmxfUwCT.OvMEyeqa/MUGZITpK6RWdgzoasp0kRi' WHERE nombreUsuario = 'empleador1';
-UPDATE usuarios SET contrasenia = '$2y$10$9RA/APt311taLVmRFqafzuaHgwU31p6ZnuDi1OhPTfb7obcJv2t96' WHERE nombreUsuario = 'empleador2';
-UPDATE usuarios SET contrasenia = '$2y$10$pfAArRBf2UOQtOibTdQaKugdCU28EL1cW.pfMQLwXJFnWKXv8ASxS' WHERE nombreUsuario = 'empleador3';
-UPDATE usuarios SET contrasenia = '$2y$10$Y/ukKKrhrufeHNC7RK4dh.yvuohEXEhD4FUFSHKHm6e7pjgS3SU8G' WHERE nombreUsuario = 'empleador4';
-UPDATE usuarios SET contrasenia = '$2y$10$VIOtbFR9VzbL6xJ0qg1fQOej6RWRSg3Wh9oLe3EvlJZRLzCQC1QZ6' WHERE nombreUsuario = 'empleador5';
-UPDATE usuarios SET contrasenia = '$2y$10$J1DTzkK5to9/c6ebXYD3MuCguJDRLEuZMOuG8.NBS9r.N5fVTnA76' WHERE nombreUsuario = 'empleador6';
-UPDATE usuarios SET contrasenia = '$2y$10$K3OuE4CtEuREnV027WPJse40sNzErVILDsVEyTcyRKjXfnbSHa0S.' WHERE nombreUsuario = 'empleador7';
-UPDATE usuarios SET contrasenia = '$2y$10$EdCvAKwx/9K6vreUzUENde.zH8pPjuXeXIrKy2/R2h343aljCGzXO' WHERE nombreUsuario = 'empleador8';
-UPDATE usuarios SET contrasenia = '$2y$10$wTkgNcI.vWP9fAkWEcGSt.t0CwDTDAUZtFFHh.Im9dfhztvMJxHcO' WHERE nombreUsuario = 'empleador9';
-UPDATE usuarios SET contrasenia = '$2y$10$P4le8QiZUwF24gjTgvqFDulwOrfKuV3yQJe.ZdinMrqWYiLDtvKJS' WHERE nombreUsuario = 'empleador10';
+(2, 1, '2023-10-01', 'aceptado'),
+(2, 2, '2023-10-02', 'rechazado'),
+(2, 3, '2023-10-03', 'pendiente'); 
