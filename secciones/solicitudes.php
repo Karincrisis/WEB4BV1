@@ -62,6 +62,9 @@ $solicitudes = obtenerSolicitudes($idEmpleador);
                 <th>Candidato</th>
                 <th>Puesto Solicitado</th>
                 <th>Compatibilidad (%)</th>
+                <th>Escolaridad</th>
+                <th>Industria</th>
+                <th>Aspiración Salarial</th>
                 <th>Estado</th>
                 <th>Acciones</th>
             </tr>
@@ -69,7 +72,7 @@ $solicitudes = obtenerSolicitudes($idEmpleador);
         <tbody>
             <?php if (empty($solicitudes)) : ?>
                 <tr>
-                    <td colspan="5">No hay solicitudes pendientes.</td>
+                    <td colspan="8">No hay solicitudes pendientes.</td>
                 </tr>
             <?php else : ?>
                 <?php foreach ($solicitudes as $solicitud) : ?>
@@ -80,6 +83,9 @@ $solicitudes = obtenerSolicitudes($idEmpleador);
                         <td><?= htmlspecialchars($solicitud['nombre'] . ' ' . $solicitud['apellidoPaterno'] . ' ' . $solicitud['apellidoMaterno']); ?></td>
                         <td><?= htmlspecialchars($solicitud['puesto']); ?></td>
                         <td><?= $compatibilidad; ?>%</td>
+                        <td><?= htmlspecialchars($solicitud['escolaridad']); ?></td>
+                        <td><?= htmlspecialchars($solicitud['industriaOferta']); ?></td>
+                        <td><?= htmlspecialchars($solicitud['aspiracionSalarial']); ?></td>
                         <td><?= htmlspecialchars($solicitud['estadoAplicacion']); ?></td>
                         <td>
                             <?php if ($solicitud['estadoAplicacion'] === 'pendiente') : ?>
@@ -115,6 +121,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['accion'], $_POST['idA
     } else {
         echo "<script>alert('Hubo un error al actualizar la solicitud.');</script>";
     }
-    
 }
 ?>
