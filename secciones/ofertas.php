@@ -139,6 +139,5 @@ $offers = obtenerOfertas($filtro, $candidato_id);
         <p class="no-offers">No se encontraron ofertas para los criterios seleccionados.</p>
     <?php endif; ?>
 </div>
-
 </body>
 </html>

@@ -3,17 +3,22 @@
 // Diana Karina Zarate Sanchez
 
 session_start();
-include('../plantillas/cabecera.php'); // Incluir plantilla para el header
+if(empty($_SESSION['usuario_id'] or ($_SESSION['tipoUsuario']!='empleador'))){
+    if($_SESSION['nombreUsuario'] != 'empleador'){
+        session_destroy();
+    }
+    header('Location: ./error.php');
+}
 include('../controladores/controladores_vistas.php'); // Incluir el archivo de controladores
-
 ?>
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página Principal</title>
+    <link rel="shortcut icon" href="./imagenes/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="../css/estilo.css">
+    <title>Empleador</title>
     <style>
         body {
             display: flex;
@@ -85,6 +90,14 @@ include('../controladores/controladores_vistas.php'); // Incluir el archivo de c
     </style>
 </head>
 <body>
+<header>
+        <a href="https://www.tantsevat.com"><img src="../imagenes/logo.png" alt="tantsevat" title="tantsevat.com" class="logo"></a>
+        <div class="titulo"><h2>Encuenta prospectos de colaboradores.</h2></div>
+        <form action="../controladores/controlador_cerrar.php">
+            <button type="submit">Cerrar sesión</button>
+        </form>
+</header>
+<main>
     <div id="main-container">
         <div id="sidebar">
             <button id="solicitudes-btn" aria-label="Ver solicitudes de candidatos">Solicitudes</button>
@@ -166,9 +179,7 @@ include('../controladores/controladores_vistas.php'); // Incluir el archivo de c
             }
         });
     </script>
-</body>
-</html>
-
+</main>
 <?php
 include('../plantillas/pie.php'); // Incluir plantilla para el footer
 ?>

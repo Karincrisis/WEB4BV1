@@ -3,7 +3,12 @@
 // Diana Karina Zarate Sanchez
 
 session_start();
-include('../plantillas/cabecera.php'); // Incluir plantilla para el header
+if(empty($_SESSION['usuario_id'] or ($_SESSION['tipoUsuario']!='candidato'))){
+    if($_SESSION['nombreUsuario'] != 'candidato'){
+        session_destroy();
+    }
+    header('Location: ./error.php');
+}
 include('../controladores/controladores_vistas.php'); // Incluir el archivo de controladores
 
 // Verificar si el usuario está logueado como candidato
@@ -20,7 +25,8 @@ verificarCandidato($candidato_id);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página Principal</title>
+    <link rel="stylesheet" href="../css/estilo.css">
+    <title>Candiato</title>
     <style>
         body {
             display: flex;
@@ -90,6 +96,13 @@ verificarCandidato($candidato_id);
     </style>
 </head>
 <body>
+    <header>
+        <a href="https://www.tantsevat.com"><img src="../imagenes/logo.png" alt="tantsevat" title="tantsevat.com" class="logo"></a>
+        <div class="titulo"><h2>Encuenta empleo ya mismo.</h2></div>
+        <form action="../controladores/controlador_cerrar.php">
+            <button type="submit">Cerrar sesión</button>
+        </form>
+    </header>
     <div id="main-container">
         <div id="sidebar">
             <button id="ofertas-btn">Ofertas</button>

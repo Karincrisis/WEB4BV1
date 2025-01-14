@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         header("Location: ../secciones/Candidato.php");
                         break;
                     case 'administrador':
-                        header("Location: ../secciones/Administrador.php");
+                        header("Location: ../secciones/administrador.php");
                         break;
                     default:
                         header("Location: ../secciones/error.php?error=" . urlencode("Tipo de usuario no reconocido."));

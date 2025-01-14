@@ -7,54 +7,9 @@ verificarSesion();
 
 $idEmpleador = obtenerIdEmpleadorDesdeSesion();
 $solicitudes = obtenerSolicitudes($idEmpleador);
+
 ?>
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solicitudes</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-
-        table, th, td {
-            border: 1px solid #ccc;
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        button {
-            padding: 5px 10px;
-            margin: 0 5px;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-
-        .accept {
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        .reject {
-            background-color: #f44336;
-            color: white;
-        }
-    </style>
-</head>
-<body>
+<main>
     <h1>Solicitudes Recibidas</h1>
     <table>
         <thead>
@@ -103,8 +58,7 @@ $solicitudes = obtenerSolicitudes($idEmpleador);
             <?php endif; ?>
         </tbody>
     </table>
-</body>
-</html>
+</main>
 
 <?php
 // Manejo de acciones (Aceptar/Rechazar)

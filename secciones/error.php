@@ -1,31 +1,13 @@
 <?php
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    $error = isset($_GET['error']) ? urldecode($_GET['error']) : 'Error desconocido';
+
     include('../plantillas/cabecera.php');
 ?>
-
-<?php
-// Mostrar errores de PHP para depuración
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-// Obtener el mensaje de error desde la URL
-$error = isset($_GET['error']) ? urldecode($_GET['error']) : 'Error desconocido';
-
-?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página de Error</title>
-    <link rel="stylesheet" href="../css/estilo.css">
-</head>
-<body>
-
 <main>
-    <div class="error-container">
+    <div class="presentacion-inicio">
         <h1>Error: <?php echo $error; ?></h1>
-        
-        <!-- Imágenes y descripciones dependiendo del error -->
         <div class="error-images">
             <?php
             switch ($error) {
@@ -56,19 +38,19 @@ $error = isset($_GET['error']) ? urldecode($_GET['error']) : 'Error desconocido'
             }
             ?>
         </div>
-
         <!-- Botones para navegar -->
-        <div class="buttons">
-            <a href="../secciones/iniciarSesion.php" class="button">Volver a iniciar sesión</a>
-            <a href="../index.html" class="button">Ir a página principal</a>
-            <a href="../secciones/registro.php" class="button">Registrarme</a>
-        </div>
+        <div class="botones-inicio">
+            <form action="./iniciarSesion.php">
+                <button type="submit">Iniciar Sesión</button>
+            </form>
+            <form action="./registro.php">
+                <button type="submit">Registrarme</button>
+            </form>
+            <form action="../index.html">
+                <button type="submit">Ir a la pagina principal</button>
+        </form>
     </div>
 </main>
-
-</body>
-</html>
-
 <?php
 include('../plantillas/pie.php');
 ?>

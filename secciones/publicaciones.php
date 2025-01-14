@@ -31,7 +31,7 @@ $idDomicilio = $datosO['idDomicilio'];
             gap: 20px;
         }
         .oferta-card {
-            width: 30%;
+            width: 700px;
             background-color: #fff;
             border: 1px solid #ccc;
             border-radius: 8px;
@@ -129,9 +129,7 @@ $idDomicilio = $datosO['idDomicilio'];
             </div>
         <?php endforeach; ?>
     </div>
-
     <a href="publicar.php" id="publicar-btn">Publicar Nueva Oferta</a>
-
 </body>
 </html>
 

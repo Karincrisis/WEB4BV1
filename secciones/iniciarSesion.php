@@ -9,7 +9,7 @@ include('../plantillas/cabecera.php');
 <main>
 	<div class="contenedorFormulario">
         <h3>Bienvenido, ingresa tus datos de inicio de sesión</h3>
-		<form class="formulario" method="$_POST" action="../controladores/controlador_inicio_sesion.php">
+		<form class="formulario" method="POST" action="../controladores/controladores_inicio_sesion.php">
 
 		<label>Nombre de usuario o correo</label>
 		<input type="text" name="nombreUsuario" required>	
@@ -23,3 +23,5 @@ include('../plantillas/cabecera.php');
 <?php
 include('../plantillas/pie.php');
 ?>
+
+controladores_inicio_sesion.php
